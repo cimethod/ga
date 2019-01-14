@@ -1,26 +1,63 @@
 #include <iostream>
-#include "GA.h"
+//#include "GA.h"
+#include <vector>
+#include <cmath>
 
 using namespace std;
 
-double f(double x1, double x2)
-{
-    return 21.5 + x1 * sin(4 * M_PI * x1) + x2 * sin(20 * M_PI * x2);
-}
+double f(vector<double>);
+double g(vector<int>);
 
 int main()
 {
-    double con[] = {-3.0,12.1,4.1,5.8};
-    GA ga;
-    int cc = ga.countCromosome(con, 5, sizeof(con) / ( 2 * sizeof(double)));
-    printf("%d\n", cc);
-    for(int i = 1; i <= 100; i++)
-    {
-        string s(cc, '0');
-        ga.init(s);
-        double x1 = ga.splitObject(s, con, 5, 1);
-        double x2 = ga.splitObject(s, con, 5, 2);
-        printf("f(%f,%f)=%f\n", x1, x2, f(x1, x2));
-    }
+    /* A Discerte 3D Equalation */
+    GA *ga1 = new GA<double>({{-3.0, 12.1},{4.1, 5.8}}, f, 100, 1000, 0.2, 0.01);
+
+    ga1->eval();
+
+    /* 8-Queen */
+    GA *ga2 = new GA<int>({{0,7},{0,7},{0,7},{0,7},{0,7},{0,7},{0,7},{0,7}}, g);
+    ga2->population(500);
+    ga2->pcrossover(0.2)
+        ->pmitution(0.02)
+        ->generation(1000); /* Also can use that member either chain or separatly */
+    ga2->eval();
+
+    ga2->population(1000); /* Being able to reset any member to use evalation */
+    ga2->eval();
     return 0;
+}
+
+double f(vector<double> x)
+{
+    return 21.5 + x[0] * sin(4 * M_PI * x[0]) + x[1] * sin(20 * M_PI * x[1]);
+}
+
+double g(vector<int> x){
+    int counter = 0;
+    int moves = 24;
+    for (int i = 0; i <= 7; i++) {
+        // row
+        for (int j = i + 1; j <= 7; j++) {
+            if (x[j] == x[i]) {
+                return counter / moves;
+            }
+        }
+        counter++;
+        // diognal
+        for (int j = i + 1; j <= 7; j++) {
+            if (x[j] == (x[i] + (j - i))) {
+                return counter / moves;
+            }
+        }
+        counter++;
+        // inverse diognal
+        for (int j = i + 1; j <= 7; j++) {
+            if (x[j] == (x[i] - (j - i))) {
+                return counter / moves;
+            }
+        }
+        counter++;
+    }
+    return counter / moves;
 }
