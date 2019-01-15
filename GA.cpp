@@ -2,9 +2,12 @@
 
 GA<class T>::GA(double scope[0][2], double (*pf)(std::vector<T> x),
 	int population = 100, int generation = 1000,
-	double pc = 0.2, double pm = 0.02): 
+	double pc = 0.2, double pm = 0.02
+	std::string __init, int __position):
 {
     srand(time(NULL));
+	position(__position);
+	init(__init);
 }
 
 GA<class T>::~GA() {}
@@ -75,6 +78,15 @@ double GA<class T>::splitObject(std::string c, double con[], int radix, int n)
 double GA<class T>::binreal(std::string c, double a, double b)
 {
 	return a + bindec(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
+}
+
+/*
+Manipulation chromosome for making decision
+@params initChromosome, position
+@return chromosome
+*/
+std::maniplutionChromosome(std::string){
+	return str;
 }
 
 
