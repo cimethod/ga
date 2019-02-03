@@ -74,7 +74,3 @@ double GA::binreal(string c, double a, double b)
 {
 	return a + bindec(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
 }
-
-void GA::test(string str, ...){
-	printf("%s\n", str);
-}
