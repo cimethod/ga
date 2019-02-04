@@ -85,3 +85,15 @@ double GA::binreal(std::string c, double a, double b)
 {
 	return a + bindec(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
 }
+
+void GA::eval(double (*callback)(double x1, double x2))
+{
+    for(int i = 1; i <= 100; i++)
+    {
+        std::string s(countCromosome(), '0');
+        init(s);
+        double x1 = splitObject(s, 1);
+        double x2 = splitObject(s, 2);
+        printf("f(%f,%f)=%f\n", x1, x2, callback(x1, x2));
+    }
+}

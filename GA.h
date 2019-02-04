@@ -25,4 +25,5 @@ public:
     int countCromosome();
     long int bindec(std::string c);
     double binreal(std::string c, double a, double b);
+    void eval(double (*callback)(double, double));
 };
