@@ -5,20 +5,18 @@
 #include <time.h>
 #include <cmath>
 
-using namespace std;
-
-class __declspec(dllexport) GA
+class GA
 {
     public:
     GA(void);
     ~GA(void);
-    void init(string &c);
-    int random(string c);
-    double splitObject(string c, double con[], int radix, int n);
-    void mutation(string &c);
-    void crossover(string &c1, string &c2);
+    void init(std::string &c);
+    int random(std::string c);
+    double splitObject(std::string c, double con[], int radix, int n);
+    void mutation(std::string &c);
+    void crossover(std::string &c1, std::string &c2);
     double population(double c[], int radix, int i);
     int countCromosome(double c[], int radix, int n);
-    long int bindec(string c);
-    double binreal(string c, double a, double b);
+    long int bindec(std::string c);
+    double binreal(std::string c, double a, double b);
 };
