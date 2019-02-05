@@ -1,15 +1,47 @@
 #include "GA.h"
 
-GA::GA(double d[][2], size_t drow, int rdx)
+/**
+ * A kind of constructor of GA object
+ * @param d[][2]	A set of domains what it is needed
+ * @param drow		Row of domains
+ * @param rdx		Decimal precision
+ * @param cp		Count of population
+ */
+GA::GA(double d[][2], size_t drow, int rdx, int cp)
 {
 	radix = rdx;
+	CountPopulation(cp);
 	for(int i = 0; i < drow; i++)
 		addDomain(d[i][0], d[i][1]);
     srand(time(NULL));
 }
 
+/**
+ * Setting of count population where it is not assign at constructor
+ * @param cp	A value of count population
+ * @return void
+ */
+void GA::CountPopulation(int cp){
+	countPopulation = cp;
+	return;
+}
+
+/**
+ * Getting of count population where it is needed
+ * @return Count of population
+ */
+int GA::CountPopulation() const {
+	return countPopulation;
+}
+
 GA::~GA() {}
 
+/**
+ * Appending range from start of domain to end of domain
+ * @param start	A value that is lesser than end
+ * @param end	A value of end of domain
+ * @return void
+ */
 void GA::addDomain(double start, double end)
 {
 	std::vector<double> sd;
@@ -88,7 +120,7 @@ double GA::binreal(std::string c, double a, double b)
 
 void GA::eval(double (*callback)(double x1, double x2))
 {
-    for(int i = 1; i <= 100; i++)
+    for(int i = 1; i <= CountPopulation(); i++)
     {
         std::string s(countCromosome(), '0');
         init(s);

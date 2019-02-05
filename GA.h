@@ -12,10 +12,8 @@ class GA
 private:
     std::vector<std::vector<double> > domain;
     int radix;
-public:
-    GA(double d[][2], size_t drow, int rdx);
-    ~GA(void);
-    void addDomain(double start, double end);
+    int countPopulation;
+
     void init(std::string &c);
     int random(std::string c);
     double splitObject(std::string c, int n);
@@ -24,6 +22,12 @@ public:
     double population(int i);
     int countCromosome();
     long int bindec(std::string c);
-    double binreal(std::string c, double a, double b);
+    double binreal(std::string c, double a, double b);    
+public:
+    GA(double d[][2], size_t drow, int rdx, int cp);
+    ~GA(void);
+    void addDomain(double start, double end);
+    void CountPopulation(int cp);
+    int CountPopulation() const;
     void eval(double (*callback)(double, double));
 };

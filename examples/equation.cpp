@@ -14,7 +14,7 @@ int main()
         {-3.0,  12.1},
         {4.1,   5.8}
     };
-    GA *ga = new GA(domain, 2, 5);
+    GA *ga = new GA(domain, 2, 5, 100);
     ga->eval(f);
     return 0;
 }
