@@ -24,10 +24,12 @@ private:
     long int bindec(std::string c);
     double binreal(std::string c, double a, double b);    
 public:
-    GA(double d[][2], size_t drow, int rdx, int cp);
-    ~GA(void);
+    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
     int CountPopulation() const;
+    void Radix(int rdx);
+    int Radix() const;
     void eval(double (*callback)(double, double));
+    ~GA();
 };

@@ -4,12 +4,13 @@
  * A kind of constructor of GA object
  * @param d[][2]	A set of domains what it is needed
  * @param drow		Row of domains
- * @param rdx		Decimal precision
- * @param cp		Count of population
+ * @param rdx		Optional, Decimal precision
+ * @param cp		Optional, Count of population
+ * @see CountPopulation
  */
 GA::GA(double d[][2], size_t drow, int rdx, int cp)
 {
-	radix = rdx;
+	Radix(rdx);
 	CountPopulation(cp);
 	for(int i = 0; i < drow; i++)
 		addDomain(d[i][0], d[i][1]);
@@ -34,7 +35,23 @@ int GA::CountPopulation() const {
 	return countPopulation;
 }
 
-GA::~GA() {}
+/**
+ * Setting of value of decimal pricision
+ * @param rdx	A value of decimal pricision
+ * @return void
+ */
+void GA::Radix(int rdx){
+	radix = rdx;
+	return;
+}
+
+/**
+ * Getting of value of decimal pricision
+ * @return a value of decimal pricision
+ */
+int GA::Radix() const {
+	return radix;
+}
 
 /**
  * Appending range from start of domain to end of domain
@@ -129,3 +146,5 @@ void GA::eval(double (*callback)(double x1, double x2))
         printf("f(%f,%f)=%f\n", x1, x2, callback(x1, x2));
     }
 }
+
+GA::~GA() {}
