@@ -15,6 +15,7 @@ private:
     int countPopulation;
     double probabilityMutation;
     double probabilityCrossover;
+    double (*callback)(std::vector<double>);
 
     void init(std::string &c);
     int random(std::string c);
@@ -26,7 +27,7 @@ private:
     long int bindec(std::string c);
     double binreal(std::string c, double a, double b);    
 public:
-    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2);
+    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
     int CountPopulation() const;
@@ -36,6 +37,7 @@ public:
     double ProbabilityMutation() const;
     void ProbabilityCrossover(double pc);
     double ProbabilityCrossover() const;
-    void eval(double (*callback)(double, double));
+    void CallbackFunction(double (*pf)(std::vector<double> a));
+    void eval();
     ~GA();
 };

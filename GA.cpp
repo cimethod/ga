@@ -10,7 +10,7 @@
  * @param pc		Optional, Probability of crossover
  * @see CountPopulation
  */
-GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc)
+GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double (*pf)(std::vector<double> a))
 {
 	srand(time(NULL));
 
@@ -18,6 +18,7 @@ GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc)
 	CountPopulation(cp);
 	ProbabilityMutation(pm);
 	ProbabilityCrossover(pc);
+	CallbackFunction(pf);
 
 	for(int i = 0; i < drow; i++)
 		addDomain(d[i][0], d[i][1]);
@@ -93,6 +94,15 @@ void GA::ProbabilityCrossover(double pc){
  */
 double GA::ProbabilityCrossover() const {
 	return probabilityCrossover;
+}
+
+/**
+ * Seeting logical function for fittness
+ * @param (*pf)	a logical function. it is ought to be have an argument of std::vector<double> that each of inputs are in it.
+ */
+void GA::CallbackFunction(double (*pf)(std::vector<double> a)){
+	callback = pf;
+	return;
 }
 
 /**
@@ -180,15 +190,17 @@ double GA::binreal(std::string c, double a, double b)
 /**
  * Processing of evaluating fittness chromosome level
  */
-void GA::eval(double (*callback)(double x1, double x2))
+void GA::eval()
 {
     for(int i = 1; i <= CountPopulation(); i++)
     {
         std::string s(countCromosome(), '0');
         init(s);
-        double x1 = splitObject(s, 1);
-        double x2 = splitObject(s, 2);
-        printf("f(%f,%f)=%f\n", x1, x2, callback(x1, x2));
+		std::vector<double> a;
+		for(int i = 1; i <= domain.size(); i++){
+			a.push_back(splitObject(s, i));
+		}
+        callback(a);
     }
 }
 

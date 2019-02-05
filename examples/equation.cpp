@@ -3,9 +3,10 @@
 
 using namespace std;
 
-double f(double x1, double x2)
+double f(std::vector<double> x)
 {
-    return 21.5 + x1 * sin(4 * M_PI * x1) + x2 * sin(20 * M_PI * x2);
+    cout << x[0] << " " << x[1] << endl;
+    return 21.5 + x[0] * sin(4 * M_PI * x[0]) + x[1] * sin(20 * M_PI * x[1]);
 }
 
 int main()
@@ -17,6 +18,7 @@ int main()
     GA *ga = new GA(domain, 2);
     ga->CountPopulation(1000);
     ga->Radix(6);
-    ga->eval(f);
+    ga->CallbackFunction(f);
+    ga->eval();
     return 0;
 }
