@@ -6,15 +6,21 @@
  * @param drow		Row of domains
  * @param rdx		Optional, Decimal precision
  * @param cp		Optional, Count of population
+ * @param pm		Optional, Probability of mutation
+ * @param pc		Optional, Probability of crossover
  * @see CountPopulation
  */
-GA::GA(double d[][2], size_t drow, int rdx, int cp)
+GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc)
 {
+	srand(time(NULL));
+
 	Radix(rdx);
 	CountPopulation(cp);
+	ProbabilityMutation(pm);
+	ProbabilityCrossover(pc);
+
 	for(int i = 0; i < drow; i++)
 		addDomain(d[i][0], d[i][1]);
-    srand(time(NULL));
 }
 
 /**
@@ -51,6 +57,42 @@ void GA::Radix(int rdx){
  */
 int GA::Radix() const {
 	return radix;
+}
+
+/**
+ * Setting of value demonstrates level of probability of mutation
+ * @param pm value of probability of mutation
+ * @return void
+ */
+void GA::ProbabilityMutation(double pm){
+	probabilityMutation = pm;
+	return;
+}
+
+/**
+ * Getting of value what it is
+ * @return A value of probability of mutation
+ */
+double GA::ProbabilityMutation() const {
+	return probabilityMutation;
+}
+
+/**
+ * Setting value of probability of crossover level
+ * @param pc value of probability
+ * @return void
+ */
+void GA::ProbabilityCrossover(double pc){
+	probabilityCrossover = pc;
+	return;
+}
+
+/**
+ * Getting value of probability of crossover level
+ * @return value of probability of crossover
+ */
+double GA::ProbabilityCrossover() const {
+	return probabilityCrossover;
 }
 
 /**
@@ -135,6 +177,9 @@ double GA::binreal(std::string c, double a, double b)
 	return a + bindec(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
 }
 
+/**
+ * Processing of evaluating fittness chromosome level
+ */
 void GA::eval(double (*callback)(double x1, double x2))
 {
     for(int i = 1; i <= CountPopulation(); i++)
