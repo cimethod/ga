@@ -8,6 +8,7 @@
  * @param cp		Optional, Count of population
  * @param pm		Optional, Probability of mutation
  * @param pc		Optional, Probability of crossover
+ * @param (*pf)		Optional, Callback function fittness
  * @see CountPopulation
  */
 GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double (*pf)(std::vector<double> a))
