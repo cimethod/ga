@@ -16,18 +16,22 @@ private:
     double probabilityMutation;
     double probabilityCrossover;
     double (*callback)(std::vector<double>);
+    std::vector<std::string> population;
 
-    void init(std::string &c);
+    void generationChromosome(std::string &c);
     int random(std::string c);
     double splitObject(std::string c, int n);
     void mutation(std::string &c);
     void crossover(std::string &c1, std::string &c2);
-    double population(int i);
+    double countSubChromosome(int i);
     int countCromosome();
-    long int bindec(std::string c);
-    double binreal(std::string c, double a, double b);    
+    long int string2decimal(std::string c);
+    double binary2decimal(std::string c, double a, double b);    
+    std::vector<double> createArguments(std::string);
+    void generationPopulation();
 public:
     GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0);
+    void initDomain(double d[][2], size_t drow);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
     int CountPopulation() const;

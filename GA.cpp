@@ -19,9 +19,13 @@ GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double
 	ProbabilityMutation(pm);
 	ProbabilityCrossover(pc);
 	CallbackFunction(pf);
+	initDomain(d, drow);
+}
 
+void GA::initDomain(double d[][2], size_t drow){
 	for(int i = 0; i < drow; i++)
 		addDomain(d[i][0], d[i][1]);
+	return;
 }
 
 /**
@@ -119,7 +123,7 @@ void GA::addDomain(double start, double end)
 	domain.push_back(sd);
 }
 
-void GA::init(std::string &c)
+void GA::generationChromosome(std::string &c)
 {
     for(int i = 0; i < c.length(); i++)
         c[i] = rand() % 2 + '0';
@@ -152,16 +156,16 @@ int GA::countCromosome()
 {
 	double sum = 0;
 	for(int j = 0; j < domain.size(); j++)
-		sum += population(j);
+		sum += countSubChromosome(j);
 	return (int)sum;
 }
 
-double GA::population(int i)
+double GA::countSubChromosome(int i)
 {
 	return ceil(log((domain[i][1] - domain[i][0]) * pow(10.0, radix)) / log(2.0));
 }
 
-long int GA::bindec(std::string c)
+long int GA::string2decimal(std::string c)
 {
 	signed long p = c.length() - 1;
 	long int dec = 0;
@@ -177,14 +181,32 @@ double GA::splitObject(std::string c, int n)
 {
 	int ma = 0;
 	for(int i = 0; i < n - 1; i++)
-		ma += population(i);
-	int mb = population(n);
-	return binreal(c.substr(ma, mb), domain[n][0], domain[n][1]);
+		ma += countSubChromosome(i);
+	int mb = countSubChromosome(n);
+	return binary2decimal(c.substr(ma, mb), domain[n][0], domain[n][1]);
 }
 
-double GA::binreal(std::string c, double a, double b)
+double GA::binary2decimal(std::string c, double a, double b)
 {
-	return a + bindec(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
+	return a + string2decimal(c) * ( b - a ) / ( pow(2, c.length() ) - 1 );
+}
+
+std::vector<double> GA::createArguments(std::string s){
+	std::vector<double> x;
+	for(int i = 0; i < domain.size(); i++){
+		x.push_back(splitObject(s, i));
+	}
+	return x;
+}
+
+void GA::generationPopulation(){
+	for(int i = 0; i < CountPopulation(); i++)
+    {
+        std::string s(countCromosome(), '0');
+        generationChromosome(s);
+		population.push_back(s);
+    }
+	return;
 }
 
 /**
@@ -192,16 +214,8 @@ double GA::binreal(std::string c, double a, double b)
  */
 void GA::eval()
 {
-    for(int i = 0; i < CountPopulation(); i++)
-    {
-        std::string s(countCromosome(), '0');
-        init(s);
-		std::vector<double> a;
-		for(int j = 0; j < domain.size(); j++){
-			a.push_back(splitObject(s, j));
-		}
-        callback(a);
-    }
+	generationPopulation();
+	callback(createArguments(population[0]));
 }
 
 GA::~GA() {}
