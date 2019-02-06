@@ -151,14 +151,14 @@ void GA::crossover(std::string &c1, std::string &c2)
 int GA::countCromosome()
 {
 	double sum = 0;
-	for(int j = 1; j <= domain.size(); j++)
+	for(int j = 0; j < domain.size(); j++)
 		sum += population(j);
 	return (int)sum;
 }
 
 double GA::population(int i)
 {
-	return ceil(log((domain[i-1][1] - domain[i-1][0]) * pow(10.0, radix)) / log(2.0));
+	return ceil(log((domain[i][1] - domain[i][0]) * pow(10.0, radix)) / log(2.0));
 }
 
 long int GA::bindec(std::string c)
@@ -176,10 +176,10 @@ long int GA::bindec(std::string c)
 double GA::splitObject(std::string c, int n)
 {
 	int ma = 0;
-	for(int i = 1; i < n; i++)
+	for(int i = 0; i < n - 1; i++)
 		ma += population(i);
 	int mb = population(n);
-	return binreal(c.substr(ma, mb), domain[n-1][0], domain[n-1][1]);
+	return binreal(c.substr(ma, mb), domain[n][0], domain[n][1]);
 }
 
 double GA::binreal(std::string c, double a, double b)
@@ -192,13 +192,13 @@ double GA::binreal(std::string c, double a, double b)
  */
 void GA::eval()
 {
-    for(int i = 1; i <= CountPopulation(); i++)
+    for(int i = 0; i < CountPopulation(); i++)
     {
         std::string s(countCromosome(), '0');
         init(s);
 		std::vector<double> a;
-		for(int i = 1; i <= domain.size(); i++){
-			a.push_back(splitObject(s, i));
+		for(int j = 0; j < domain.size(); j++){
+			a.push_back(splitObject(s, j));
 		}
         callback(a);
     }
