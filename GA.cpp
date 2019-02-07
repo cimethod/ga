@@ -11,7 +11,7 @@
  * @param (*pf)		Optional, Callback function fittness
  * @see CountPopulation
  */
-GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double (*pf)(std::vector<double> a))
+GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double (*pf)(std::vector<double> a), std::string ic, size_t pos)
 {
 	srand(time(NULL));
 
@@ -136,24 +136,68 @@ int GA::random(std::string c)
 	return rand() % c.length();
 }
 
-void GA::mutation(std::string &c)
+void GA::mutation()
 {
-	int m = random(c);
-	c[m] = c[m] == '0' ? '1' : '0';
+	for(int i = 0; i < population.size(); i++){
+		std::string c = population[i];
+		for (int j = 0; j < countChromosome(); j++) {
+			double r = random(c) / (double)(c.length());
+			if (j < Position() || j >= ( Position() + InitChromosome().length() ) && r < ProbabilityMutation()) {
+				int m = random(c);
+				c[m] = c[m] == '0' ? '1' : '0';
+				population[i] = c;
+				std::cout << c << " " << ProbabilityMutation() << " " << r << " " << m << std::endl;
+			}
+		}
+	}
 	return;
 }
 
-void GA::crossover(std::string &c1, std::string &c2)
-{
-	int m = random(c1);
-	std::string tc1 = c1.substr(m);
-	std::string tc2 = c2.substr(m);
-	c1.replace(m, c1.length() - m, tc2);
-	c2.replace(m, c2.length() - m, tc1);
+void GA::InitChromosome(std::string ic){
+	initChromosome = ic;
 	return;
 }
 
-int GA::countCromosome()
+std::string GA::InitChromosome(){
+	return initChromosome;
+}
+
+void GA::Position(size_t pos){
+	position = pos;
+	return;
+}
+
+size_t GA::Position(){
+	return position;
+}
+
+void GA::crossover()
+{
+	for(int i = 0; i < population.size(); i++){
+		std::string c = population[i];
+		double r = random(c) / (double)(c.length());
+		if (i < Position() || i >= ( Position() + InitChromosome().length() ) && r < ProbabilityCrossover()) {
+			int i1 = selectRandomIndex();
+			int i2 = selectRandomIndex();
+			std::string c1 = population[i1],
+				c2 = population[i2];
+			int m = random(c1);
+			std::string tc1 = c1.substr(m);
+			std::string tc2 = c2.substr(m);
+			c1.replace(m, c1.length() - m, tc2);
+			c2.replace(m, c2.length() - m, tc1);
+			population[i1] = c1;
+			population[i2] = c2;
+		}
+	}
+	return;
+}
+
+int GA::selectRandomIndex(){
+	return rand() % population.size();
+}
+
+int GA::countChromosome()
 {
 	double sum = 0;
 	for(int j = 0; j < domain.size(); j++)
@@ -203,11 +247,25 @@ std::vector<double> GA::createArguments(std::string s){
 void GA::generationPopulation(){
 	for(int i = 0; i < CountPopulation(); i++)
     {
-        std::string s(countCromosome(), '0');
+        std::string s(countChromosome(), '0');
         generationChromosome(s);
 		population.push_back(s);
     }
 	return;
+}
+
+std::vector<double> GA::Probability(){
+	std::vector<double> p;
+	double sum = 0;
+	for (int i = 0; i < population.size(); i++) {
+		std::vector<double> args = createArguments(population[i]);
+		p.push_back(callback(args));
+		sum += p[i];
+	}
+	for(int i = 0; i < population.size(); i++){
+		p[i] /= sum;
+	}
+	return p;
 }
 
 /**
@@ -217,6 +275,8 @@ void GA::eval()
 {
 	generationPopulation();
 	callback(createArguments(population[0]));
+	mutation();
+	crossover();
 }
 
 GA::~GA() {}

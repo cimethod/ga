@@ -17,20 +17,22 @@ private:
     double probabilityCrossover;
     double (*callback)(std::vector<double>);
     std::vector<std::string> population;
+    size_t position;
+    std::string initChromosome;
 
     void generationChromosome(std::string &c);
     int random(std::string c);
     double splitObject(std::string c, int n);
-    void mutation(std::string &c);
-    void crossover(std::string &c1, std::string &c2);
+    void mutation();
+    void crossover();
     double countSubChromosome(int i);
-    int countCromosome();
+    int countChromosome();
     long int string2decimal(std::string c);
     double binary2decimal(std::string c, double a, double b);    
     std::vector<double> createArguments(std::string);
     void generationPopulation();
 public:
-    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0);
+    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0, std::string ic = "", size_t pos = 0);
     void initDomain(double d[][2], size_t drow);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
@@ -42,6 +44,13 @@ public:
     void ProbabilityCrossover(double pc);
     double ProbabilityCrossover() const;
     void CallbackFunction(double (*pf)(std::vector<double> a));
+    void Position(size_t pos);
+    size_t Position();
+    void InitChromosome(std::string ic);
+    std::string InitChromosome();
+    int selectRandomIndex();
+    std::vector<double> Probability();
+    std::vector<double> CumulativeProbability();
     void eval();
     ~GA();
 };
