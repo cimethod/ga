@@ -11,12 +11,13 @@
  * @param (*pf)		Optional, Callback function fittness
  * @see CountPopulation
  */
-GA::GA(double d[][2], size_t drow, int rdx, int cp, double pm, double pc, double (*pf)(std::vector<double> a), std::string ic, size_t pos)
+GA::GA(double d[][2], size_t drow, int rdx, int cp, int cg, double pm, double pc, double (*pf)(std::vector<double> a), std::string ic, size_t pos)
 {
 	srand(time(NULL));
 
 	Radix(rdx);
 	CountPopulation(cp);
+	CountGeneration(cg);
 	ProbabilityMutation(pm);
 	ProbabilityCrossover(pc);
 	CallbackFunction(pf);
@@ -45,6 +46,14 @@ void GA::CountPopulation(int cp){
  */
 int GA::CountPopulation() const {
 	return countPopulation;
+}
+
+void GA::CountGeneration(int cg) {
+	countGeneration = cg;
+}
+
+int GA::CountGeneration() const {
+	return countGeneration;
 }
 
 /**
@@ -146,11 +155,9 @@ void GA::mutation()
 				int m = random(c);
 				c[m] = c[m] == '0' ? '1' : '0';
 				population[i] = c;
-				std::cout << c << " " << ProbabilityMutation() << " " << r << " " << m << std::endl;
 			}
 		}
 	}
-	return;
 }
 
 void GA::InitChromosome(std::string ic){
@@ -158,7 +165,7 @@ void GA::InitChromosome(std::string ic){
 	return;
 }
 
-std::string GA::InitChromosome(){
+std::string GA::InitChromosome() const {
 	return initChromosome;
 }
 
@@ -167,7 +174,7 @@ void GA::Position(size_t pos){
 	return;
 }
 
-size_t GA::Position(){
+size_t GA::Position() const{
 	return position;
 }
 
@@ -190,7 +197,6 @@ void GA::crossover()
 			population[i2] = c2;
 		}
 	}
-	return;
 }
 
 int GA::selectRandomIndex(){
@@ -268,15 +274,55 @@ std::vector<double> GA::Probability(){
 	return p;
 }
 
+std::vector<double> GA::CumulativeProbability(){
+	std::vector<double> q, p = Probability();
+	for(int i = 0; i < population.size(); i++){
+		q.push_back(0.0);
+		for(int j = i; j <= i; j++){
+			q[i] += p[j];
+		}
+	}
+	return q;
+}
+
+std::vector<std::string> GA::selection(){
+	std::vector<double> q = CumulativeProbability();
+	std::vector<std::string> s;
+	std::string c = population[0];
+	int length = c.length();
+	for (int i = 0; i < population.size(); i++) {
+		double r = random(c) / (double)length;
+		if (r < q[0]) s.push_back(population[0]);
+		for (int j = 0; j < population.size(); j++) {
+			if (r >= q[j]) {
+				s.push_back(population[ j + 1 ]);
+				break;
+			}
+		}
+	}
+	population = s;
+}
+
 /**
  * Processing of evaluating fittness chromosome level
  */
-void GA::eval()
+double GA::eval()
 {
 	generationPopulation();
-	callback(createArguments(population[0]));
-	mutation();
-	crossover();
+	for(int i = 0; i < CountGeneration(); i++){
+		selection();
+		//mutation();
+		//crossover();
+	}
+	std::vector<double> args = createArguments(population[0]);
+	double maxSignal = callback(args);
+	for(int i = 1; i < CountPopulation(); i++){
+		args = createArguments(population[i]);
+		double signal = callback(args);
+		if(signal > maxSignal)
+			maxSignal = signal;
+	}
+	return maxSignal;
 }
 
 GA::~GA() {}

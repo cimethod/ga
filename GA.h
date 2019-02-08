@@ -6,6 +6,8 @@
 #include <cmath>
 #include <math.h>
 #include <vector>
+#include <algorithm>
+#include <map>
 
 class GA
 {
@@ -13,6 +15,7 @@ private:
     std::vector<std::vector<double> > domain;
     int radix;
     int countPopulation;
+    int countGeneration;
     double probabilityMutation;
     double probabilityCrossover;
     double (*callback)(std::vector<double>);
@@ -32,11 +35,13 @@ private:
     std::vector<double> createArguments(std::string);
     void generationPopulation();
 public:
-    GA(double d[][2], size_t drow, int rdx = 0, int cp = 0, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0, std::string ic = "", size_t pos = 0);
+    GA(double d[][2], size_t drow, int rdx = 0, int cp = 10, int cg = 100, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0, std::string ic = "", size_t pos = 0);
     void initDomain(double d[][2], size_t drow);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
     int CountPopulation() const;
+    void CountGeneration(int cg);
+    int CountGeneration() const;
     void Radix(int rdx);
     int Radix() const;
     void ProbabilityMutation(double pm);
@@ -45,12 +50,13 @@ public:
     double ProbabilityCrossover() const;
     void CallbackFunction(double (*pf)(std::vector<double> a));
     void Position(size_t pos);
-    size_t Position();
+    size_t Position() const;
     void InitChromosome(std::string ic);
-    std::string InitChromosome();
+    std::string InitChromosome() const;
     int selectRandomIndex();
+    std::vector<std::string> selection();
     std::vector<double> Probability();
     std::vector<double> CumulativeProbability();
-    void eval();
+    double eval();
     ~GA();
 };
