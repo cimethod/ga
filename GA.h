@@ -22,9 +22,10 @@ private:
     std::vector<std::string> population;
     size_t position;
     std::string initChromosome;
-
+public:
+    GA(double d[][2], size_t drow, int rdx = 0, int cp = 10, int cg = 100, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0, std::string ic = "", size_t pos = 0);
     void generationChromosome(std::string &c);
-    int random(std::string c);
+    int random();
     double splitObject(std::string c, int n);
     void mutation();
     void crossover();
@@ -34,8 +35,6 @@ private:
     double binary2decimal(std::string c, double a, double b);    
     std::vector<double> createArguments(std::string);
     void generationPopulation();
-public:
-    GA(double d[][2], size_t drow, int rdx = 0, int cp = 10, int cg = 100, double pm = 0.05, double pc = 0.2, double (*pf)(std::vector<double> a) = 0, std::string ic = "", size_t pos = 0);
     void initDomain(double d[][2], size_t drow);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
@@ -54,9 +53,10 @@ public:
     void InitChromosome(std::string ic);
     std::string InitChromosome() const;
     int selectRandomIndex();
-    std::vector<std::string> selection();
+    void selection();
     std::vector<double> Probability();
     std::vector<double> CumulativeProbability();
     double eval();
+    double maximumSignal();
     ~GA();
 };

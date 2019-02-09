@@ -1,6 +1,5 @@
 #include <iostream>
 #include "../GA.h"
-#include <map>
 
 using namespace std;
 
@@ -15,7 +14,7 @@ int main()
         {-3.0,  12.1},
         {4.1,   5.8}
     };
-    GA *ga = new GA(domain, 2, 5, 10, 100, 0.05, 0.2, f);
+    GA *ga = new GA(domain, 2, 5, 400, 100, 0.05, 0.2, f);
     cout << ga->eval() << endl;
     return 0;
 }
