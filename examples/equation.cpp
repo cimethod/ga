@@ -14,7 +14,14 @@ int main()
         {-3.0,  12.1},
         {4.1,   5.8}
     };
-    GA *ga = new GA(domain, 2, 5, 400, 100, 0.05, 0.2, f);
-    cout << ga->eval() << endl;
+    GA *ga = new GA(domain, 2,  /* range of domain */
+        5,                      /* precision of decimal */
+        400,                    /* count of population */
+        100,                    /* count of generation */
+        0.05,                   /* probability of mutation */
+        0.2,                    /* probability of crossover */
+    f                           /* function of problem */
+    );
+    cout << ga->eval() << endl; /* result by evalution */
     return 0;
 }
