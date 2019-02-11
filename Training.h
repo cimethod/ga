@@ -1,0 +1,4 @@
+class Training {
+    Training();
+    ~Training();
+};
