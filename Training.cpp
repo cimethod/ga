@@ -1,8 +1,8 @@
 #include "Training.h"
 
-Training::Training(double d[][2], size_t drow, int sg[], int csg, double spc[], int cspc, double spm[], int cspm, int rdx , int cp, int cg, double pm, double pc, double (*pf)(std::vector<double> a), std::string ic, size_t pos)
+Training::Training(double d[][2], size_t drow, int sg[], int csg, double spc[], int cspc, double spm[], int cspm)
 {
-    GA(d, drow, rdx, cp, cg, pm, pc, pf, ic, pos);
+    GA(d, drow);
     for(int i = 0; i < csg; i++)
         setGeneration.push_back(sg[i]);
     for(int i = 0; i < cspc; i++)
