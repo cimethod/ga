@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../GA.h"
+#include "../Training.h"
 
 using namespace std;
 
@@ -32,6 +32,7 @@ int main()
         {0, 7}, {0, 7}, {0, 7}, {0, 7},
         {0, 7}, {0, 7}, {0, 7}, {0, 7}
     };
+    
     GA *ga = new GA(domain, 8,  /* range of domain */
         0,                      /* precision of decimal */
         400,                    /* count of population */
@@ -44,6 +45,13 @@ int main()
     int generations[] = {400, 450, 500, 550, 600, 1000};
     double pc[] = {0.15, 0.2, 0.3, 0.4};
     double pm[] = {0.3, 0.02, 0.05, 0.1, 0.2};
+
+    Training *t = new Training(domain, 8,
+        generations, sizeof(generations) / sizeof(int),
+        pc, sizeof(pc) / sizeof(double),
+        pm, sizeof(pm) / sizeof(double)
+    );
+    t->evalTrain();
     
     return 0;
 }

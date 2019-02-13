@@ -1,8 +1,7 @@
 #include "Training.h"
 
-Training::Training(double d[][2], size_t drow, int sg[], int csg, double spc[], int cspc, double spm[], int cspm)
+Training::Training(double d[][2], size_t drow, int sg[], size_t csg, double spc[], size_t cspc, double spm[], size_t cspm): GA(d, drow)
 {
-    GA(d, drow);
     for(int i = 0; i < csg; i++)
         setGeneration.push_back(sg[i]);
     for(int i = 0; i < cspc; i++)
@@ -18,7 +17,7 @@ void Training::evalTrain(){
                 CountGeneration(setGeneration[i]);
                 ProbabilityCrossover(setCrossover[j]);
                 ProbabilityMutation(setMutation[k]);
-                double e = eval();
+                std::cout << eval() << std::endl;
             }
         }
     }
@@ -36,6 +35,4 @@ void Training::SetMutation(double pm){
     setMutation.push_back(pm);
 }
 
-Training::~Training(){
-
-}
+Training::~Training(){}
