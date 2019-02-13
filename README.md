@@ -44,7 +44,7 @@ int main()
     return 0;
 }
 ```
-This code is [here](https://github.com/cimethod/ga/blob/master/examples/equation.cpp).
+This code is [here](https://github.com/cimethod/ga/blob/master/examples/equation.cpp) and training code is [here](https://github.com/cimethod/ga/blob/master/examples/trainEquation.cpp) to performance up what you choice count of generation, probability of crossover or mutation to do better.
 
 If you use g++ compiler you can add batch file to compile faster.
 ```bash
@@ -53,3 +53,9 @@ g++ -c GA.cpp examples/equation.cpp
 g++ -o equation.exe GA.o equation.o
 del *.o
 ```
+Also a batch file for training mode is [here](https://github.com/cimethod/ga/blob/master/compile-training.cmd)
+
+# Training framework
+This module is inheritance of GA Library and how know being the best factories of genetic such as count of generation, probability of mutation and crossover or manipulation of crossover.
+
+For more further information click [API Documentation](http://api.cimethod.com/) link.
