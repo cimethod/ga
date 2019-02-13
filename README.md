@@ -58,4 +58,6 @@ Also a batch file for training mode is [here](https://github.com/cimethod/ga/blo
 # Training framework
 This module is inheritance of GA Library and how know being the best factories of genetic such as count of generation, probability of mutation and crossover or manipulation of crossover.
 
+Training uses more in hard problem not knowing what paramaters of genetic mentioned in upper. [8-Queen Problem](https://github.com/cimethod/ga/blob/master/examples/queen.cpp) is one of those we said. You can use Traning framework that whole of possible values you think and you run that problem and watching which parameters act better.
+
 For more further information click [API Documentation](http://api.cimethod.com/) link.
