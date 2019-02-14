@@ -11,7 +11,7 @@ public:
         double spc[], size_t cspc,
         double spm[], size_t cspm
     );
-    void evalTrain();
+    void eval();
     void SetGeneration(int g);
     void SetCrossover(double pc);
     void SetMutation(double pm);

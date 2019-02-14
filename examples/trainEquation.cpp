@@ -23,6 +23,6 @@ int main()
         spm, sizeof(spm) / sizeof(double)
     );
     t->CallbackFunction(f);
-    t->evalTrain();
+    t->eval();
     return 0;
 }

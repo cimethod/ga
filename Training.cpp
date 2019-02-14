@@ -13,7 +13,7 @@ Training::Training(double d[][2], size_t drow,
         setMutation.push_back(spm[i]);
 }
 
-void Training::evalTrain(){
+void Training::eval(){
     std::cout << "Enter Ctrl+C to terminal\n" << std::endl;
     for (int i = 0; i < setGeneration.size(); i++) {
         for (int j = 0; j < setCrossover.size(); j++) {
@@ -21,7 +21,7 @@ void Training::evalTrain(){
                 CountGeneration(setGeneration[i]);
                 ProbabilityCrossover(setCrossover[j]);
                 ProbabilityMutation(setMutation[k]);
-                std::cout << eval() << std::endl;
+                std::cout << GA::eval() << std::endl;
             }
         }
     }
