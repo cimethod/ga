@@ -263,7 +263,7 @@ long int GA::string2decimal(std::string c)
 double GA::splitObject(std::string c, int n)
 {
 	int ma = 0;
-	for(int i = 0; i < n - 1; i++)
+	for(int i = 0; i < n; i++)
 		ma += countSubChromosome(i);
 	int mb = countSubChromosome(n);
 	return binary2decimal(c.substr(ma, mb), domain[n][0], domain[n][1]);
@@ -276,9 +276,8 @@ double GA::binary2decimal(std::string c, double a, double b)
 
 std::vector<double> GA::createArguments(std::string s){
 	std::vector<double> x;
-	for(int i = 0; i < domain.size(); i++){
+	for(int i = 0; i < domain.size(); i++)
 		x.push_back(splitObject(s, i));
-	}
 	return x;
 }
 

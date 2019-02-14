@@ -1,7 +1,10 @@
 #include "Training.h"
 
-Training::Training(double d[][2], size_t drow, int sg[], size_t csg, double spc[], size_t cspc, double spm[], size_t cspm): GA(d, drow)
-{
+Training::Training(double d[][2], size_t drow,
+    int sg[], size_t csg,
+    double spc[], size_t cspc,
+    double spm[], size_t cspm
+): GA(d, drow) {
     for(int i = 0; i < csg; i++)
         setGeneration.push_back(sg[i]);
     for(int i = 0; i < cspc; i++)
@@ -11,6 +14,7 @@ Training::Training(double d[][2], size_t drow, int sg[], size_t csg, double spc[
 }
 
 void Training::evalTrain(){
+    std::cout << "Enter Ctrl+C to terminal\n" << std::endl;
     for (int i = 0; i < setGeneration.size(); i++) {
         for (int j = 0; j < setCrossover.size(); j++) {
             for (int k = 0; k < setMutation.size(); k++) {
