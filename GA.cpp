@@ -281,14 +281,14 @@ std::vector<double> GA::createArguments(std::string s){
 	return x;
 }
 
-void GA::generationPopulation(){
+std::vector<std::string> GA::generationPopulation(){
 	for(int i = 0; i < CountPopulation(); i++)
     {
         std::string s(countChromosome(), '0');
         generationChromosome(s);
 		population.push_back(s);
     }
-	return;
+	return population;
 }
 
 std::vector<double> GA::Probability(){

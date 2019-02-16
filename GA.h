@@ -34,7 +34,7 @@ public:
     long int string2decimal(std::string c);
     double binary2decimal(std::string c, double a, double b);    
     std::vector<double> createArguments(std::string);
-    void generationPopulation();
+    std::vector<std::string> generationPopulation();
     void initDomain(double d[][2], size_t drow);
     void addDomain(double start, double end);
     void CountPopulation(int cp);
